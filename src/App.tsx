@@ -18,7 +18,6 @@ export default function App() {
   const [provider, setProvider] = useState<string>(() => localStorage.getItem("zhupi_provider") || "builtin");
   const [apiKey, setApiKey] = useState<string>(() => localStorage.getItem(`zhupi_key_${provider}`) || "");
   const [model, setModel] = useState<string>(() => localStorage.getItem(`zhupi_model_${provider}`) || "gemini-3.5-flash");
-  const [useProxy, setUseProxy] = useState<boolean>(() => localStorage.getItem("zhupi_proxy") === "1");
   const [customPresetPrompt, setCustomPresetPrompt] = useState<string>(
     () => localStorage.getItem("zhupi_custom_preset_prompt") || "提炼这一段的核心商业背景和主要合规风险点。"
   );
@@ -100,10 +99,6 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem(`zhupi_model_${provider}`, model);
   }, [model, provider]);
-
-  useEffect(() => {
-    localStorage.setItem("zhupi_proxy", useProxy ? "1" : "0");
-  }, [useProxy]);
 
   // Construct a deterministic key for document annotations storage
   const getDocumentStorageKey = () => {
@@ -962,8 +957,6 @@ export default function App() {
         setApiKey={setApiKey}
         model={model}
         setModel={setModel}
-        useProxy={useProxy}
-        setUseProxy={setUseProxy}
         customPresetPrompt={customPresetPrompt}
         setCustomPresetPrompt={setCustomPresetPrompt}
       />

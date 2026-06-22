@@ -25,8 +25,6 @@ interface AnnotatorHeaderProps {
   setApiKey: (key: string) => void;
   model: string;
   setModel: (m: string) => void;
-  useProxy: boolean;
-  setUseProxy: (px: boolean) => void;
   customPresetPrompt: string;
   setCustomPresetPrompt: (val: string) => void;
 }
@@ -42,8 +40,8 @@ const MODELS_CONFIG: Record<string, { label: string; models: [string, string][] 
   google: {
     label: "Google Gemini 官方密钥",
     models: [
-      ["gemini-2.5-flash", "Gemini 2.5 Flash (高能速捷)"],
-      ["gemini-2.5-pro", "Gemini 2.5 Pro (旗舰版)"]
+      ["gemini-3.5-flash", "Gemini 3.5 Flash (快速 & 多模态)"],
+      ["gemini-3.5-pro", "Gemini 3.5 Pro (全新旗舰推理)"]
     ]
   },
   openai: {
@@ -57,8 +55,9 @@ const MODELS_CONFIG: Record<string, { label: string; models: [string, string][] 
   claude: {
     label: "Claude (Anthropic)",
     models: [
-      ["claude-3-5-sonnet-latest", "Claude 3.5 Sonnet (高画质识读)"],
-      ["claude-3-5-haiku-latest", "Claude 3.5 Haiku (轻效速捷)"]
+      ["claude-sonnet-4-6", "Claude 4.6 Sonnet (默认推荐/超智均衡)"],
+      ["claude-opus-4-8", "Claude 4.8 Opus (高阶旗舰深度)"],
+      ["claude-haiku-4-5", "Claude 4.5 Haiku (快省高效分支)"]
     ]
   },
   deepseek: {
@@ -89,8 +88,6 @@ export const AnnotatorHeader: React.FC<AnnotatorHeaderProps> = ({
   setApiKey,
   model,
   setModel,
-  useProxy,
-  setUseProxy,
   customPresetPrompt,
   setCustomPresetPrompt
 }) => {
@@ -247,18 +244,6 @@ export const AnnotatorHeader: React.FC<AnnotatorHeaderProps> = ({
               ))}
             </select>
 
-            {provider !== "builtin" && (
-              <label className="flex items-center gap-2 mb-3.5 text-xs font-semibold text-[#cfcabb] cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={useProxy}
-                  onChange={(e) => setUseProxy(e.target.checked)}
-                  className="rounded border-[#4a473f] text-cinnabar focus:ring-0"
-                />
-                <span>通过本地代理 (解决浏览器直连 CORS)</span>
-              </label>
-            )}
-
             <div className="border-t border-[#3c3931] my-2.5" />
 
             <label className="block text-[10.5px] text-ink-faint uppercase font-bold tracking-wider mb-1 flex items-center justify-between">
@@ -275,8 +260,8 @@ export const AnnotatorHeader: React.FC<AnnotatorHeaderProps> = ({
 
             <div className="text-[10px] text-ink-faint leading-relaxed border-t border-[#3c3931] pt-2 mt-1">
               {provider === "builtin" 
-                ? "💡 推荐：采用平台自带的 Gemini 服务驱动，反应迅速且多模态图像/截图完美支持，无需任何外部密钥或配置，安全免心。"
-                : "💡 提示：密钥保存在本地浏览器缓存中。划线选择文字可直连发送；如使用外部DeepSeek或Claude遇到跨域报错，勾选“通过本地代理”即可解决。"}
+                ? "💡 提示：本项基于项目内置 Gemini 模型，即开即用（在 AI Studio 宿主中会自动注入密钥）。如自行下载在本地托管运行，请在根目录配置文件 .env 中设定 GEMINI_API_KEY 作为运行密钥。"
+                : "💡 提示：您的官方供应商密钥将采用高规格加密逻辑保存在本地浏览器缓存中，请求经由同源后端安全代发，无任何跨域或安全隐患，极致纯粹。"}
             </div>
           </div>
         )}

@@ -170,7 +170,7 @@ app.post("/api/zhupi/ai", async (req: express.Request, res: express.Response) =>
       if (!clientKey) {
         return res.status(400).json({ error: "您选择了 Claude API 供应商，但未在设置中填入 API 密钥。" });
       }
-      const activeModel = model || "claude-3-5-sonnet-latest";
+      const activeModel = model || "claude-sonnet-4-6";
       let contentVal: any = prompt;
 
       if (mode === "box") {

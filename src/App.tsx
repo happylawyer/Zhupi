@@ -19,6 +19,13 @@ export default function App() {
   const [apiKey, setApiKey] = useState<string>(() => localStorage.getItem(`zhupi_key_${provider}`) || "");
   const [model, setModel] = useState<string>(() => localStorage.getItem(`zhupi_model_${provider}`) || "gemini-3.5-flash");
   const [useProxy, setUseProxy] = useState<boolean>(() => localStorage.getItem("zhupi_proxy") === "1");
+  const [customPresetPrompt, setCustomPresetPrompt] = useState<string>(
+    () => localStorage.getItem("zhupi_custom_preset_prompt") || "提炼这一段的核心商业背景和主要合规风险点。"
+  );
+
+  useEffect(() => {
+    localStorage.setItem("zhupi_custom_preset_prompt", customPresetPrompt);
+  }, [customPresetPrompt]);
 
   // App running state
   const [tool, setTool] = useState<"underline" | "box">("underline");
@@ -258,7 +265,7 @@ export default function App() {
       startY = e.clientY - bounds.top;
 
       draftDiv = document.createElement("div");
-      draftDiv.className = "absolute border border-dashed border-cinnabar bg-cinnabar/10 pointer-events-none z-30 transition-all";
+      draftDiv.className = "absolute border border-dashed border-cinnabar bg-cinnabar/10 pointer-events-none z-30";
       draftDiv.style.left = `${startX}px`;
       draftDiv.style.top = `${startY}px`;
       draftDiv.style.width = "0px";
@@ -957,6 +964,8 @@ export default function App() {
         setModel={setModel}
         useProxy={useProxy}
         setUseProxy={setUseProxy}
+        customPresetPrompt={customPresetPrompt}
+        setCustomPresetPrompt={setCustomPresetPrompt}
       />
 
       {/* Embedded File upload handler for dynamic selectors */}
@@ -1039,7 +1048,7 @@ export default function App() {
                 >
                   {/* Left Gutter */}
                   <div
-                    className="left-gutter relative shrink-0 overflow-visible self-stretch z-20 pointer-events-auto bg-white/95"
+                    className="left-gutter relative shrink-0 overflow-visible self-stretch z-20 pointer-events-auto bg-white/95 border-r border-[#15140f]/10"
                     style={{ width: `${gutterW}px` }}
                   >
                     {annotations
@@ -1060,7 +1069,7 @@ export default function App() {
                     ref={(el) => {
                       pageRefs.current[idx] = el;
                     }}
-                    className="pdf-page-container relative shrink-0 bg-white border-l border-r border-[#15140f]/10 shadow-[0_0_0_1px_rgba(0,0,0,0.02)] z-10 pointer-events-auto select-none"
+                    className="pdf-page-container relative shrink-0 bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.02)] z-10 pointer-events-auto select-none"
                     style={{ width: `${pw}px`, height: `${ph}px` }}
                     data-page-index={idx}
                   >
@@ -1106,7 +1115,7 @@ export default function App() {
 
                   {/* Right Gutter */}
                   <div
-                    className="right-gutter relative shrink-0 overflow-visible self-stretch z-20 pointer-events-auto bg-white/95"
+                    className="right-gutter relative shrink-0 overflow-visible self-stretch z-20 pointer-events-auto bg-white/95 border-l border-[#15140f]/10"
                     style={{ width: `${gutterW}px` }}
                   >
                     {annotations
@@ -1173,6 +1182,14 @@ export default function App() {
                 <span className="font-song text-sm font-bold text-gold group-hover:text-white">词</span>研究词术
               </button>
               
+              <button
+                onClick={() => handleAIRequest("custom_preset", customPresetPrompt)}
+                className="cursor-pointer bg-transparent hover:bg-cinnabar text-[#efece2] border-0 text-xs font-semibold py-1.5 px-2.5 rounded flex items-center gap-1 transition-colors group select-none"
+                title={`自定义定标提示词: "${customPresetPrompt}"，可在顶部「朱批 AI 配置」中修改。`}
+              >
+                <span className="font-song text-sm font-bold text-gold group-hover:text-white">定</span>定制
+              </button>
+
               <button
                 onClick={() => setIsAsking(true)}
                 className="cursor-pointer bg-transparent hover:bg-cinnabar text-[#efece2] border-0 text-xs font-semibold py-1.5 px-2.5 rounded flex items-center gap-1 transition-colors group select-none"

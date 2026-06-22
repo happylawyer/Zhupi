@@ -10,7 +10,7 @@ export interface Rect {
   h: number;
 }
 
-export type AnnotationAct = "translate" | "explain" | "summarize" | "vocab" | "custom";
+export type AnnotationAct = "translate" | "explain" | "summarize" | "vocab" | "custom" | "custom_preset";
 
 export interface Annotation {
   id: number;

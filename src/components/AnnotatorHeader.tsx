@@ -27,6 +27,8 @@ interface AnnotatorHeaderProps {
   setModel: (m: string) => void;
   useProxy: boolean;
   setUseProxy: (px: boolean) => void;
+  customPresetPrompt: string;
+  setCustomPresetPrompt: (val: string) => void;
 }
 
 const MODELS_CONFIG: Record<string, { label: string; models: [string, string][] }> = {
@@ -88,7 +90,9 @@ export const AnnotatorHeader: React.FC<AnnotatorHeaderProps> = ({
   model,
   setModel,
   useProxy,
-  setUseProxy
+  setUseProxy,
+  customPresetPrompt,
+  setCustomPresetPrompt
 }) => {
   const [showSettings, setShowSettings] = useState(false);
 
@@ -244,7 +248,7 @@ export const AnnotatorHeader: React.FC<AnnotatorHeaderProps> = ({
             </select>
 
             {provider !== "builtin" && (
-              <label className="flex items-center gap-2 mb-3 text-xs font-semibold text-[#cfcabb] cursor-pointer">
+              <label className="flex items-center gap-2 mb-3.5 text-xs font-semibold text-[#cfcabb] cursor-pointer">
                 <input
                   type="checkbox"
                   checked={useProxy}
@@ -254,6 +258,20 @@ export const AnnotatorHeader: React.FC<AnnotatorHeaderProps> = ({
                 <span>通过本地代理 (解决浏览器直连 CORS)</span>
               </label>
             )}
+
+            <div className="border-t border-[#3c3931] my-2.5" />
+
+            <label className="block text-[10.5px] text-ink-faint uppercase font-bold tracking-wider mb-1 flex items-center justify-between">
+              <span>自定义快捷设定 [定]</span>
+              <span className="text-[9px] text-[#efece2]/40 font-normal">点击浮动栏「定」立即触发</span>
+            </label>
+            <textarea
+              rows={2}
+              placeholder="例如：提炼合规和侵权风险、用英文法律术语润色等..."
+              value={customPresetPrompt}
+              onChange={(e) => setCustomPresetPrompt(e.target.value)}
+              className="w-full text-xs font-sans bg-[#15140f] text-[#efece2] border border-[#45423a] rounded px-2 px-1.5 focus:outline-none focus:border-cinnabar resize-none mb-2"
+            />
 
             <div className="text-[10px] text-ink-faint leading-relaxed border-t border-[#3c3931] pt-2 mt-1">
               {provider === "builtin" 

@@ -19,7 +19,8 @@ const ACT_LABEL: Record<AnnotationAct, string> = {
   explain: "释",
   summarize: "总结",
   vocab: "词",
-  custom: "问"
+  custom: "问",
+  custom_preset: "定"
 };
 
 const ACT_COLOR: Record<AnnotationAct, string> = {
@@ -27,7 +28,8 @@ const ACT_COLOR: Record<AnnotationAct, string> = {
   explain: "bg-[#4a6b5d] text-white",
   summarize: "bg-gold text-white",
   vocab: "bg-[#3e5668] text-white",
-  custom: "bg-ink text-[#efece2]"
+  custom: "bg-ink text-[#efece2]",
+  custom_preset: "bg-[#8b5cf6] text-white"
 };
 
 // Light RegExp-based Markdown compiler for styling terms & points elegantly

@@ -1,0 +1,6 @@
+{
+  "name": "朱批 · PDF 智能批注台",
+  "description": "完全复制复刻朱批智能PDF划线框选批注端，通过Gemini API提供强大的中英法律文本翻译、释义、要点总结以及词汇精析功能。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
